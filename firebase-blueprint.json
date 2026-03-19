@@ -1,0 +1,109 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "User account information and preferences.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "plan": { "type": "string", "enum": ["free", "pro", "premium"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Resume": {
+      "title": "Resume",
+      "description": "A professional resume created by the user.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "title": { "type": "string" },
+        "personalInfo": {
+          "type": "object",
+          "properties": {
+            "fullName": { "type": "string" },
+            "email": { "type": "string" },
+            "phone": { "type": "string" },
+            "address": { "type": "string" },
+            "linkedin": { "type": "string" },
+            "website": { "type": "string" }
+          }
+        },
+        "education": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "institution": { "type": "string" },
+              "degree": { "type": "string" },
+              "startDate": { "type": "string" },
+              "endDate": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "experience": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "company": { "type": "string" },
+              "position": { "type": "string" },
+              "startDate": { "type": "string" },
+              "endDate": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        },
+        "skills": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "certifications": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "summary": { "type": "string" },
+        "templateId": { "type": "string" },
+        "score": { "type": "number" },
+        "feedback": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "title"]
+    },
+    "PaymentRequest": {
+      "title": "Payment Request",
+      "description": "A request for a plan upgrade that requires admin approval.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "userName": { "type": "string" },
+        "planId": { "type": "string", "enum": ["pro", "premium"] },
+        "status": { "type": "string", "enum": ["pending", "approved", "rejected"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userEmail", "planId", "status"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profiles."
+    },
+    "resumes/{resumeId}": {
+      "schema": "Resume",
+      "description": "User resumes."
+    },
+    "paymentRequests/{requestId}": {
+      "schema": "PaymentRequest",
+      "description": "Pending payment requests for admin approval."
+    }
+  }
+}
